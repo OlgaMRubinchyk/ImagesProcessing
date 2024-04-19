@@ -9,7 +9,7 @@ public class BMPImage {
     private InfoHeader infoHeader;
     byte[] rawData;
     Pixel[][] imageData;
-
+    Pixel[][] OriginalImageData;
     BMPImage(String fileName){
         //File myObj = new File("filename.txt");
         try {
@@ -110,9 +110,11 @@ public class BMPImage {
 
     private void fillPixelData() {
         imageData = new Pixel[infoHeader.width][infoHeader.height];
+        OriginalImageData = new Pixel[infoHeader.width][infoHeader.height];
         for (int i = 0; i < imageData[0].length; i++) {
             for (int j = 0; j < imageData[i].length; j++) {
                 imageData[i][j] = new Pixel();
+                OriginalImageData[i][j] = new Pixel();
 
             }
         }
@@ -124,6 +126,9 @@ public class BMPImage {
                 imageData[i][j].green = rawData[k+1];
                 imageData[i][j].blue = rawData[k+2];
 
+                OriginalImageData[i][j].red = rawData[k];
+                OriginalImageData[i][j].green = rawData[k+1];
+                OriginalImageData[i][j].blue = rawData[k+2];
             }
         }
 
@@ -144,9 +149,21 @@ public class BMPImage {
 
     }
 
+    public Pixel[][] getPixels() {
+        return imageData;
+    }
 
+    public Pixel[][] getOriginalPixels() {
+        return OriginalImageData;
+    }
 
+    public int getWidth() {
+        return infoHeader.width;
+    }
 
+    public int getHeight() {
+        return infoHeader.height;
+    }
 }
 
 class Header {
